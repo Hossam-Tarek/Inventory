@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditorActivity"
+            android:label="@string/editor_activity_title"
+            android:parentActivityName="com.example.hossam.inventory.CatalogActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.hossam.inventory.CatalogActivity"/>
+        </activity>
     </application>
 
 </manifest>

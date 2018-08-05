@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Inventory</string>
+
+    <!-- Title of the editor activity -->
+    <string name="editor_activity_title">Add a product</string>
+
+    <!-- Label for editor menu option to save product and leave editor -->
+    <string name="action_save">Save</string>
+
+    <!-- Hint for the user to enter the product name -->
+    <string name="product_name_hint">Product Name</string>
+
+    <!-- Hint for the user to enter the product price -->
+    <string name="product_price_hint">Product Price</string>
+
+    <!-- Hint for the user to enter the product quantity -->
+    <string name="product_quantity_hint">Product Quantity</string>
+
+    <!-- Hint for the user to enter the supplier name -->
+    <string name="supplier_name_hint">Supplier Name</string>
+
+    <!-- Hint for the user to enter the supplier phone number -->
+    <string name="supplier_phone_number_hint">Supplier Phone Number</string>
 </resources>
