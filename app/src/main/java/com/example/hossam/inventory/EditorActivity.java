@@ -52,7 +52,7 @@ public class EditorActivity extends AppCompatActivity {
         SQLiteDatabase database = mInventoryDbHelper.getWritableDatabase();
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
 
-        if (id != -1) {
+        if (id == -1) {
             Toast.makeText(this, "Error with saving product", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show();
