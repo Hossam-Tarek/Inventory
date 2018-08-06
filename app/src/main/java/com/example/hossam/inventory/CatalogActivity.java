@@ -31,6 +31,12 @@ public class CatalogActivity extends AppCompatActivity {
         readData();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        readData();
+    }
+
     private void readData() {
         InventoryDbHelper inventoryDbHelper = new InventoryDbHelper(this);
         SQLiteDatabase database = inventoryDbHelper.getReadableDatabase();
