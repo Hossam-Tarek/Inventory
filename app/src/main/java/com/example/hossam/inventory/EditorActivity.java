@@ -2,22 +2,22 @@ package com.example.hossam.inventory;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hossam.inventory.data.InventoryDbHelper;
 import com.example.hossam.inventory.data.InventoryContract.ProductEntry;
 
 public class EditorActivity extends AppCompatActivity {
-    private EditText mProductNameEditText;
-    private EditText mProductPriceEditText;
-    private EditText mProductQuantityEditText;
-    private EditText mSupplierNameEditText;
-    private EditText mSupplierPhoneNumberEditText;
+    private TextInputLayout mProductNameTextInput;
+    private TextInputLayout mProductPriceTextInput;
+    private TextInputLayout mProductQuantityTextInput;
+    private TextInputLayout mSupplierNameTextInput;
+    private TextInputLayout mSupplierPhoneNumberTextInput;
 
     private InventoryDbHelper mInventoryDbHelper;
 
@@ -26,21 +26,21 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        mProductNameEditText = findViewById(R.id.product_name_edit_text);
-        mProductPriceEditText = findViewById(R.id.product_price_edit_text);
-        mProductQuantityEditText = findViewById(R.id.product_quantity_text);
-        mSupplierNameEditText = findViewById(R.id.supplier_name_edit_text);
-        mSupplierPhoneNumberEditText = findViewById(R.id.supplier_phone_number_edit_text);
+        mProductNameTextInput = findViewById(R.id.product_name_text_input);
+        mProductPriceTextInput = findViewById(R.id.product_price_text_input);
+        mProductQuantityTextInput = findViewById(R.id.product_quantity_text_input);
+        mSupplierNameTextInput = findViewById(R.id.supplier_name_text_input);
+        mSupplierPhoneNumberTextInput = findViewById(R.id.supplier_phone_number_text_input);
 
         mInventoryDbHelper = new InventoryDbHelper(this);
     }
 
     private void insertProduct() {
-        String productName = mProductNameEditText.getText().toString().trim();
-        double productPrice = Double.parseDouble(mProductPriceEditText.getText().toString().trim());
-        int productQuantity = Integer.parseInt(mProductQuantityEditText.getText().toString().trim());
-        String supplierName = mSupplierNameEditText.getText().toString().trim();
-        String supplierPhoneNumber = mSupplierPhoneNumberEditText.getText().toString().trim();
+        String productName = mProductNameTextInput.getEditText().getText().toString().trim();
+        double productPrice = Double.parseDouble(mProductPriceTextInput.getEditText().getText().toString().trim());
+        int productQuantity = Integer.parseInt(mProductQuantityTextInput.getEditText().getText().toString().trim());
+        String supplierName = mSupplierNameTextInput.getEditText().getText().toString().trim();
+        String supplierPhoneNumber = mSupplierPhoneNumberTextInput.getEditText().getText().toString().trim();
 
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, productName);
