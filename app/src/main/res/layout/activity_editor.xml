@@ -9,10 +9,11 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/product_name_text_input"
-        style="@style/TextInputLayout">
+        style="@style/NameTextInputLayout">
 
         <android.support.design.widget.TextInputEditText
             style="@style/TextInput"
+            android:inputType="text"
             android:hint="@string/product_name_hint"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -22,6 +23,7 @@
 
         <android.support.design.widget.TextInputEditText
             style="@style/TextInput"
+            android:inputType="numberDecimal"
             android:hint="@string/product_price_hint"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -31,15 +33,17 @@
 
         <android.support.design.widget.TextInputEditText
             style="@style/TextInput"
+            android:inputType="number"
             android:hint="@string/product_quantity_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/supplier_name_text_input"
-        style="@style/TextInputLayout">
+        style="@style/NameTextInputLayout">
 
         <android.support.design.widget.TextInputEditText
             style="@style/TextInput"
+            android:inputType="text"
             android:hint="@string/supplier_name_hint"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -49,6 +53,7 @@
 
         <android.support.design.widget.TextInputEditText
             style="@style/TextInput"
+            android:inputType="phone"
             android:hint="@string/supplier_phone_number_hint"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

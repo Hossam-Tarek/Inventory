@@ -21,4 +21,25 @@
 
     <!-- Hint for the user to enter the supplier phone number -->
     <string name="supplier_phone_number_hint">Supplier Phone Number</string>
+
+    <!-- Error message for the user to enter a product name -->
+    <string name="err_msg_product_name">Enter product name</string>
+
+    <!-- Error message for the user to enter a product price -->
+    <string name="err_msg_product_price">Enter product price</string>
+
+    <!-- Error message for the user to enter product quantity -->
+    <string name="err_msg_product_quantity">Enter product quantity</string>
+
+    <!-- Error message for the user to enter supplier name -->
+    <string name="err_msg_supplier_name">Enter supplier name</string>
+
+    <!-- Error message for the user to enter supplier phone number -->
+    <string name="err_msg_supplier_phone_number">Enter supplier phone number</string>
+
+    <!-- Error message for too long text -->
+    <string name="err_msg_text_too_long">Text too long</string>
+
+    <!-- Error message for the user to enter a valid number -->
+    <string name="err_msg_non_valid_number">Enter a valid number</string>
 </resources>
