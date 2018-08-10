@@ -24,6 +24,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.hossam.inventory.CatalogActivity"/>
         </activity>
+        <provider
+            android:authorities="com.example.hossam.inventory"
+            android:name=".data.InventoryProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
