@@ -34,6 +34,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
         priceTextView.setText(String.valueOf(price));
 
         int quantity = cursor.getInt(cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY));
-        quantityTextView.setText(quantity);
+        quantityTextView.setText(String.valueOf(quantity));
     }
 }
