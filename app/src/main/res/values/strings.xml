@@ -42,4 +42,10 @@
 
     <!-- Error message for the user to enter a valid number -->
     <string name="err_msg_non_valid_number">Enter a valid number</string>
+
+    <!-- Price Label for list item to show next to it the price ex(Price: 25) -->
+    <string name="price_label">Price:</string>
+
+    <!-- Button label to sell a product -->
+    <string name="sell_button_label">Sell</string>
 </resources>

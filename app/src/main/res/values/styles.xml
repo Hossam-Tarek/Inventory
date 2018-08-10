@@ -27,4 +27,46 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">1</item>
     </style>
+
+    <!-- Style for product name text view -->
+     <style name="ProductNameTextView">
+         <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_height">wrap_content</item>
+         <item name="layout_constraintStart_toStartOf">parent</item>
+         <item name="layout_constraintTop_toTopOf">parent</item>
+     </style>
+
+    <!-- Style for price label text view -->
+    <style name="PriceLabelTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <!-- Style for the product price text view -->
+    <style name="PriceTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintStart_toEndOf">@id/price_label_text_view</item>
+    </style>
+
+    <!-- Style for product quantity text view -->
+    <style name="QuantityTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toStartOf">@id/sell_button</item>
+        <item name="layout_constraintTop_toBottomOf">@id/product_name_text_view</item>
+    </style>
+
+    <!-- Style for sell button -->
+    <style name="SellButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">@id/product_name_text_view</item>
+    </style>
 </resources>
