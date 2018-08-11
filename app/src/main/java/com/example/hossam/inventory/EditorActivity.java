@@ -1,8 +1,13 @@
 package com.example.hossam.inventory;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +18,9 @@ import android.widget.Toast;
 import com.example.hossam.inventory.data.InventoryDbHelper;
 import com.example.hossam.inventory.data.InventoryContract.ProductEntry;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private TextInputLayout mProductNameTextInput;
     private TextInputLayout mProductPriceTextInput;
     private TextInputLayout mProductQuantityTextInput;
@@ -27,11 +34,30 @@ public class EditorActivity extends AppCompatActivity {
     private String mSupplierPhoneNumber;
 
     private InventoryDbHelper mInventoryDbHelper;
+    private Uri mProductUri;
+
+    private int mActivityMode;
+    private static final int EDIT_MODE = 0;
+    private static final int SAVE_MODE = 1;
+
+    private static final int PRODUCT_LOADER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        Intent intent = getIntent();
+        mProductUri = intent.getData();
+
+        if (mProductUri != null) {
+            mActivityMode = EDIT_MODE;
+            setTitle(getString(R.string.editor_activity_title_edit_product));
+            getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        } else {
+            mActivityMode = SAVE_MODE;
+            setTitle(getString(R.string.editor_activity_title_new_product));
+        }
 
         mProductNameTextInput = findViewById(R.id.product_name_text_input);
         mProductPriceTextInput = findViewById(R.id.product_price_text_input);
@@ -178,5 +204,59 @@ public class EditorActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+                ProductEntry._ID,
+                ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductEntry.COLUMN_PRODUCT_PRICE,
+                ProductEntry.COLUMN_PRODUCT_QUANTITY,
+                ProductEntry.COLUMN_SUPPLIER_NAME,
+                ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER
+        };
+
+        return new CursorLoader(
+                this,
+                mProductUri,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (!cursor.moveToFirst()) {
+            return;
+        }
+
+        int productNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
+        int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+        int supplierNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_NAME);
+        int phoneNumberColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+
+        mProductNameTextInput.getEditText()
+                .setText(cursor.getString(productNameColumnIndex));
+        mProductPriceTextInput.getEditText()
+                .setText(String.valueOf(cursor.getDouble(priceColumnIndex)));
+        mProductQuantityTextInput.getEditText()
+                .setText(String.valueOf(cursor.getInt(quantityColumnIndex)));
+        mSupplierNameTextInput.getEditText()
+                .setText(cursor.getString(supplierNameColumnIndex));
+        mSupplierPhoneNumberTextInput.getEditText()
+                .setText(cursor.getString(phoneNumberColumnIndex));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mProductNameTextInput.getEditText().setText(null);
+        mProductPriceTextInput.getEditText().setText(null);
+        mProductQuantityTextInput.getEditText().setText(null);
+        mSupplierNameTextInput.getEditText().setText(null);
+        mSupplierPhoneNumberTextInput.getEditText().setText(null);
     }
 }

@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Inventory</string>
 
-    <!-- Title of the editor activity -->
-    <string name="editor_activity_title">Add a product</string>
+    <!-- Title of the editor activity to add new product -->
+    <string name="editor_activity_title_new_product">Add a product</string>
+
+    <!-- Title of the editor activity to edit an existing product -->
+    <string name="editor_activity_title_edit_product">Edit product</string>
 
     <!-- Label for editor menu option to save product and leave editor -->
     <string name="action_save">Save</string>

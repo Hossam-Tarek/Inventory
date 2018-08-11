@@ -1,6 +1,7 @@
 package com.example.hossam.inventory;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -8,7 +9,9 @@ import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.hossam.inventory.data.InventoryContract.ProductEntry;
@@ -38,6 +41,15 @@ public class CatalogActivity extends AppCompatActivity
         ListView productsListView = findViewById(R.id.products_list);
         productsListView.setAdapter(mCursorAdapter);
 
+        productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                intent.setData(ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id));
+                startActivity(intent);
+            }
+        });
+        productsListView.setItemsCanFocus(true);
         getLoaderManager().initLoader(PRODUCT_LOADER,null, this);
     }
 

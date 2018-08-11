@@ -44,6 +44,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
         quantityTextView.setText(String.valueOf(quantity));
 
         final long id = cursor.getLong(cursor.getColumnIndex(ProductEntry._ID));
+        sellButton.setFocusable(false);
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
