@@ -55,11 +55,11 @@
     <!-- Label for catalog menu option delete all products -->
     <string name="action_delete_all">Delete all products</string>
 
+    <!-- Label for catalog menu option delete product -->
+    <string name="action_delete">Delete</string>
+
     <!-- Dialog message to warn the user from deleting all the products -->
-    <string name="dialog_msg_delete_all_products">
-        You are about to delete all products in your inventory, Are you sure you want to delete
-        all products?
-    </string>]
+    <string name="dialog_msg_delete_all_products">Delete all products?</string>
 
     <!-- Dialog button text for the option to confirm deletion of product -->
     <string name="delete">Delete</string>
@@ -72,4 +72,25 @@
 
     <!-- Toast message in catalog when all products have failed to be deleted -->
     <string name="delete_all_products_failed">Error with deleting products</string>
+
+    <!-- Toast message in editor activity when a new product was added successfully -->
+    <string name="add_product_successful">New product added</string>
+
+    <!-- Toast message in editor activity when a new product has failed to be added -->
+    <string name="add_product_failed">Error with adding product</string>
+
+    <!-- Toast message in editor activity when a product has successfully updated -->
+    <string name="update_product_successful">Product updated</string>
+
+    <!-- Toast message in editor activity when a product has failed to update -->
+    <string name="update_product_failed">Error with updating product</string>
+
+    <!-- Dialog message in editor activity to warn the user form deleting the current product -->
+    <string name="dialog_msg_delete_product">Delete this product?</string>
+
+    <!-- Toast message in editor activity when product has successfully deleted -->
+    <string name="delete_product_successful">Product deleted</string>
+
+    <!-- Toast message in editor activity when product has failed to update -->
+    <string name="delete_product_failed">Error with deleting product</string>
 </resources>

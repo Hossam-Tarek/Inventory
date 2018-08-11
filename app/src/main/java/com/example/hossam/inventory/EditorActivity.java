@@ -1,25 +1,32 @@
 package com.example.hossam.inventory;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
-import com.example.hossam.inventory.data.InventoryDbHelper;
 import com.example.hossam.inventory.data.InventoryContract.ProductEntry;
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final String TAG = EditorActivity.class.getSimpleName();
 
     private TextInputLayout mProductNameTextInput;
     private TextInputLayout mProductPriceTextInput;
@@ -33,7 +40,6 @@ public class EditorActivity extends AppCompatActivity
     private String mSupplierName;
     private String mSupplierPhoneNumber;
 
-    private InventoryDbHelper mInventoryDbHelper;
     private Uri mProductUri;
 
     private int mActivityMode;
@@ -57,6 +63,7 @@ public class EditorActivity extends AppCompatActivity
         } else {
             mActivityMode = SAVE_MODE;
             setTitle(getString(R.string.editor_activity_title_new_product));
+            invalidateOptionsMenu();
         }
 
         mProductNameTextInput = findViewById(R.id.product_name_text_input);
@@ -64,11 +71,12 @@ public class EditorActivity extends AppCompatActivity
         mProductQuantityTextInput = findViewById(R.id.product_quantity_text_input);
         mSupplierNameTextInput = findViewById(R.id.supplier_name_text_input);
         mSupplierPhoneNumberTextInput = findViewById(R.id.supplier_phone_number_text_input);
-
-        mInventoryDbHelper = new InventoryDbHelper(this);
     }
 
-    private void insertProduct() {
+    private void saveProduct() {
+        if (!checkInput()) {
+            return;
+        }
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, mProductName);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, mProductPrice);
@@ -76,13 +84,28 @@ public class EditorActivity extends AppCompatActivity
         values.put(ProductEntry.COLUMN_SUPPLIER_NAME, mSupplierName);
         values.put(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER, mSupplierPhoneNumber);
 
-        SQLiteDatabase database = mInventoryDbHelper.getWritableDatabase();
-        long id = database.insert(ProductEntry.TABLE_NAME, null, values);
+        switch (mActivityMode) {
+            case SAVE_MODE:
+                Uri uri = getContentResolver().insert(ProductEntry.CONTENT_URI, values);
+                if (ContentUris.parseId(uri) == -1) {
+                    Toast.makeText(this, getString(R.string.add_product_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.add_product_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                int rowsUpdated = getContentResolver().update(mProductUri, values,
+                        null, null);
 
-        if (id == -1) {
-            Toast.makeText(this, "Error with saving product", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "New product added", Toast.LENGTH_SHORT).show();
+                if (rowsUpdated != 0) {
+                    Toast.makeText(this, getString(R.string.update_product_successful),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.update_product_failed),
+                            Toast.LENGTH_SHORT).show();
+                }
         }
     }
 
@@ -90,17 +113,10 @@ public class EditorActivity extends AppCompatActivity
         return textInputLayout.getEditText().getText().toString().trim();
     }
 
-    private boolean isInputEmpty(String input) {
-        if (input == null || input.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean validateProductName() {
         String productNameText = getInput(mProductNameTextInput);
 
-        if (isInputEmpty(productNameText)) {
+        if (TextUtils.isEmpty(productNameText)) {
             mProductNameTextInput.setError(getString(R.string.err_msg_product_name));
             return false;
         } else if (productNameText.length() > 50) {
@@ -116,7 +132,7 @@ public class EditorActivity extends AppCompatActivity
     private boolean validateProductPrice() {
         String productPriceText = getInput(mProductPriceTextInput);
 
-        if (isInputEmpty(productPriceText)) {
+        if (TextUtils.isEmpty(productPriceText)) {
             mProductPriceTextInput.setError(getString(R.string.err_msg_product_price));
             return false;
         }
@@ -135,7 +151,7 @@ public class EditorActivity extends AppCompatActivity
     private boolean validateProductQuantity() {
         String productQuantityText = getInput(mProductQuantityTextInput);
 
-        if (isInputEmpty(productQuantityText)) {
+        if (TextUtils.isEmpty(productQuantityText)) {
             mProductQuantityTextInput.setError(getString(R.string.err_msg_product_quantity));
             return false;
         }
@@ -154,7 +170,7 @@ public class EditorActivity extends AppCompatActivity
     private boolean validateSupplierName() {
         String supplierNameText = getInput(mSupplierNameTextInput);
 
-        if (isInputEmpty(supplierNameText)) {
+        if (TextUtils.isEmpty(supplierNameText)) {
             mSupplierNameTextInput.setError(getString(R.string.err_msg_supplier_name));
             return false;
         } else if (supplierNameText.length() > 50) {
@@ -170,7 +186,7 @@ public class EditorActivity extends AppCompatActivity
     private boolean validateSupplierPhoneNumber() {
         String supplierPhoneNumberText = getInput(mSupplierPhoneNumberTextInput);
 
-        if (isInputEmpty(supplierPhoneNumberText)) {
+        if (TextUtils.isEmpty(supplierPhoneNumberText)) {
             mSupplierPhoneNumberTextInput.setError(getString(R.string.err_msg_supplier_phone_number));
             return false;
         }
@@ -196,27 +212,64 @@ public class EditorActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_save) {
-            if (checkInput()) {
-                insertProduct();
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                saveProduct();
+                finish();
+                return true;
+            case R.id.action_delete:
+                Log.v(TAG, "delete menu option clicked");
+                showDeleteConfirmationDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (mActivityMode == SAVE_MODE) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_msg_delete_product);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteProduct();
                 finish();
             }
-            return true;
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteProduct() {
+        int rowsDeleted = getContentResolver().delete(mProductUri, null, null);
+        if (rowsDeleted != 0) {
+            Toast.makeText(this, getString(R.string.delete_product_successful),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.delete_product_failed),
+                    Toast.LENGTH_SHORT).show();
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {
-                ProductEntry._ID,
-                ProductEntry.COLUMN_PRODUCT_NAME,
-                ProductEntry.COLUMN_PRODUCT_PRICE,
-                ProductEntry.COLUMN_PRODUCT_QUANTITY,
-                ProductEntry.COLUMN_SUPPLIER_NAME,
-                ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER
-        };
-
         return new CursorLoader(
                 this,
                 mProductUri,
@@ -235,7 +288,7 @@ public class EditorActivity extends AppCompatActivity
 
         int productNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
-        int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_PRODUCT_QUANTITY);
         int supplierNameColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_NAME);
         int phoneNumberColumnIndex = cursor.getColumnIndex(ProductEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
 
