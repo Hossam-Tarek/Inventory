@@ -114,6 +114,21 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
+        ImageButton callButton = findViewById(R.id.call_button);
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateSupplierPhoneNumber()) {
+                    return;
+                }
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + mSupplierPhoneNumber));
+                if (callIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(callIntent);
+                }
+            }
+        });
+
         mProductNameTextInput = findViewById(R.id.product_name_text_input);
         mProductPriceTextInput = findViewById(R.id.product_price_text_input);
         mProductQuantityTextInput = findViewById(R.id.product_quantity_text_input);

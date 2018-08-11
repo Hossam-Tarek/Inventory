@@ -69,13 +69,28 @@
             android:hint="@string/supplier_name_hint"/>
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/supplier_phone_number_text_input"
-        style="@style/TextInputLayout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputEditText
-            style="@style/TextInput"
-            android:inputType="phone"
-            android:hint="@string/supplier_phone_number_hint"/>
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/supplier_phone_number_text_input"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            style="@style/TextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                style="@style/TextInput"
+                android:inputType="phone"
+                android:hint="@string/supplier_phone_number_hint"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/call_button"
+            android:src="@drawable/ic_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 </LinearLayout>
