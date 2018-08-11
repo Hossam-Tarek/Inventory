@@ -93,4 +93,13 @@
 
     <!-- Toast message in editor activity when product has failed to update -->
     <string name="delete_product_failed">Error with deleting product</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes -->
+    <string name="dialog_msg_unsaved_changes">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current pet -->
+    <string name="keep_editing">Keep Editing</string>
 </resources>
