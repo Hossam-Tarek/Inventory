@@ -1,5 +1,6 @@
 package com.example.hossam.inventory;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
@@ -8,10 +9,12 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -123,6 +126,10 @@ public class EditorActivity extends AppCompatActivity
                 }
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:" + mSupplierPhoneNumber));
+                if (ContextCompat.checkSelfPermission(EditorActivity.this,
+                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
                 if (callIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(callIntent);
                 }
