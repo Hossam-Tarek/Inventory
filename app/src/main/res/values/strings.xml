@@ -51,4 +51,25 @@
 
     <!-- Button label to sell a product -->
     <string name="sell_button_label">Sell</string>
+
+    <!-- Label for catalog menu option delete all products -->
+    <string name="action_delete_all">Delete all products</string>
+
+    <!-- Dialog message to warn the user from deleting all the products -->
+    <string name="dialog_msg_delete_all_products">
+        You are about to delete all products in your inventory, Are you sure you want to delete
+        all products?
+    </string>]
+
+    <!-- Dialog button text for the option to confirm deletion of product -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of product-->
+    <string name="cancel">Cancel</string>
+
+    <!-- Toast message in catalog when all products were successfully deleted -->
+    <string name="delete_all_products_successful">All products deleted</string>
+
+    <!-- Toast message in catalog when all products have failed to be deleted -->
+    <string name="delete_all_products_failed">Error with deleting products</string>
 </resources>
