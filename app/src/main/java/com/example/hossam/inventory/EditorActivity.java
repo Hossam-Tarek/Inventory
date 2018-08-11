@@ -48,6 +48,15 @@ public class EditorActivity extends AppCompatActivity
 
     private static final int PRODUCT_LOADER = 0;
 
+    private boolean mProductHasChanged = false;
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mProductHasChanged = true;
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +80,22 @@ public class EditorActivity extends AppCompatActivity
         mProductQuantityTextInput = findViewById(R.id.product_quantity_text_input);
         mSupplierNameTextInput = findViewById(R.id.supplier_name_text_input);
         mSupplierPhoneNumberTextInput = findViewById(R.id.supplier_phone_number_text_input);
+
+        mProductNameTextInput.getEditText().setOnTouchListener(mTouchListener);
+        mProductPriceTextInput.getEditText().setOnTouchListener(mTouchListener);
+        mProductQuantityTextInput.getEditText().setOnTouchListener(mTouchListener);
+        mSupplierNameTextInput.getEditText().setOnTouchListener(mTouchListener);
+        mSupplierPhoneNumberTextInput.getEditText().setOnTouchListener(mTouchListener);
     }
 
     private void saveProduct() {
+        if (mActivityMode == EDIT_MODE && !mProductHasChanged) {
+            return;
+        }
         if (!checkInput()) {
             return;
         }
+
         ContentValues values = new ContentValues();
         values.put(ProductEntry.COLUMN_PRODUCT_NAME, mProductName);
         values.put(ProductEntry.COLUMN_PRODUCT_PRICE, mProductPrice);
