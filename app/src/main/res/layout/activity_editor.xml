@@ -27,15 +27,37 @@
             android:hint="@string/product_price_hint"/>
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/product_quantity_text_input"
-        style="@style/TextInputLayout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputEditText
-            style="@style/TextInput"
-            android:inputType="number"
-            android:hint="@string/product_quantity_hint"/>
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/product_quantity_text_input"
+            style="@style/TextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                style="@style/TextInput"
+                android:inputType="number"
+                android:hint="@string/product_quantity_hint"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/increase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_increase"/>
+
+        <ImageButton
+            android:id="@+id/decrease_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_decrease"/>
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/supplier_name_text_input"

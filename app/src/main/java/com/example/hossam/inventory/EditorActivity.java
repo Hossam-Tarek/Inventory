@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.hossam.inventory.data.InventoryContract.ProductEntry;
@@ -75,6 +77,42 @@ public class EditorActivity extends AppCompatActivity
             setTitle(getString(R.string.editor_activity_title_new_product));
             invalidateOptionsMenu();
         }
+
+        ImageButton increaseButton = findViewById(R.id.increase_button);
+        increaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProductHasChanged = true;
+                String valueString = getInput(mProductQuantityTextInput);
+                int value;
+                try {
+                    value = Integer.parseInt(valueString);
+                } catch (NumberFormatException e) {
+                    value = 0;
+                }
+                mProductQuantityTextInput.getEditText().setText(String.valueOf(++value));
+            }
+        });
+
+        ImageButton decreaseButton = findViewById(R.id.decrease_button);
+        decreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProductHasChanged = true;
+                String valueString = getInput(mProductQuantityTextInput);
+                int value;
+                try {
+                    value = Integer.parseInt(valueString);
+                } catch (NumberFormatException e) {
+                    value = 0;
+                }
+                if (value > 0) {
+                    mProductQuantityTextInput.getEditText().setText(String.valueOf(--value));
+                } else {
+                    mProductQuantityTextInput.getEditText().setText(String.valueOf(0));
+                }
+            }
+        });
 
         mProductNameTextInput = findViewById(R.id.product_name_text_input);
         mProductPriceTextInput = findViewById(R.id.product_price_text_input);
