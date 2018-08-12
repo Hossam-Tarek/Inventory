@@ -102,4 +102,10 @@
 
     <!-- Dialog button text for the option to keep editing the current pet -->
     <string name="keep_editing">Keep Editing</string>
+
+    <!-- Title text for the empty view, which describes the empty inventory state-->
+    <string name="empty_view_text">The product list is empty now&#8230;</string>
+
+    <!-- Text shown when the list is empty to inform the user to insert a new product -->
+    <string name="empty_view_text_secondary">Add a new product</string>
 </resources>

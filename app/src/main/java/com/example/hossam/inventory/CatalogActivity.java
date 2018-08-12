@@ -45,6 +45,9 @@ public class CatalogActivity extends AppCompatActivity
         ListView productsListView = findViewById(R.id.products_list);
         productsListView.setAdapter(mCursorAdapter);
 
+        View view = findViewById(R.id.empty_view);
+        productsListView.setEmptyView(view);
+
         productsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
